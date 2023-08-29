@@ -1,0 +1,3 @@
+class MailProvider { }
+
+export { MailProvider }
