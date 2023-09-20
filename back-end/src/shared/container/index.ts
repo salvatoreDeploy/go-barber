@@ -14,11 +14,11 @@ import { BCryptProvider } from "@modules/users/providers/HashProvider/implementa
 import { IStorageProvaider } from "@provider/StorageProvaider/models/IStorageProvaider";
 import { LocalStorageProvaider } from "@provider/StorageProvaider/implementations/LocalStorageProvaider";
 import { IMailProvider } from "@provider/EmailProvider/models/IMailProvider";
-import { MailProvider } from "@provider/EmailProvider/implementations/MailProvider";
 import { IUserTokenRepository } from "@modules/users/reporitories/IUserTokenRepository";
 import { UserTokenRepository } from "@modules/users/reporitories/prisma/UserTokenRepository";
 import { ResetPasswordEmailUseCase } from "@modules/users/useCase/ResetPasswordUseCase/ResetPasswordUseCase";
 import { SendForgotPasswordEmailUseCase } from "@modules/users/useCase/SendForgotPasswordEmailUseCase/SendForgotPasswordEmailUseCase";
+import { EtherealMailProvider } from "@provider/EmailProvider/implementations/EtheralMailProvider";
 
 const container = new Container();
 
@@ -61,8 +61,9 @@ container
   .to(UpdateAvatarUserUseCase);
 
 /* Email Provider */
+const etherealMailProvider = new EtherealMailProvider()
 
-// container.bind<IMailProvider>("HashProvider").to(MailProvider);
+container.bind<IMailProvider>("HashProvider").toConstantValue(etherealMailProvider);
 container.bind<ResetPasswordEmailUseCase>(ResetPasswordEmailUseCase).to(ResetPasswordEmailUseCase);
 container.bind<SendForgotPasswordEmailUseCase>(SendForgotPasswordEmailUseCase).to(SendForgotPasswordEmailUseCase);
 

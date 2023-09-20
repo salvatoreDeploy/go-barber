@@ -5,9 +5,10 @@ import nodemailer, { Transporter } from 'nodemailer'
 
 class EtherealMailProvider implements IMailProvider {
 
-  private client: Transporter
+  private client: Transporter | null = null
 
   constructor() {
+
     nodemailer.createTestAccount().then(account => {
       const transporter = nodemailer.createTransport({
         host: account.smtp.host,
@@ -18,19 +19,27 @@ class EtherealMailProvider implements IMailProvider {
           pass: account.pass
         }
       })
+
       this.client = transporter
     })
 
   }
 
   async sendMail(to: string, body: string): Promise<void> {
-    this.client.sendMail({
-      from: 'Sender Name <sender@example.com>',
-      to: 'Recipient <recipient@example.com>',
-      subject: 'Nodemailer is unicode friendly ✔',
-      text: 'Hello to myself!',
-      html: '<p><b>Hello</b> to myself!</p>'
+
+    if (!this.client) {
+      return
+    }
+
+    const message = await this.client.sendMail({
+      from: 'Equipe ProjetosDeploy <liderhenrique@gmail.com>',
+      to,
+      subject: 'Recuperação de senha ✔',
+      text: body,
     })
+
+    console.log('Message sent: %s', message.messageId)
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message))
   }
 }
 
