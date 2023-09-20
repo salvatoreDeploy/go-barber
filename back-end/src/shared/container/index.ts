@@ -19,6 +19,8 @@ import { UserTokenRepository } from "@modules/users/reporitories/prisma/UserToke
 import { ResetPasswordEmailUseCase } from "@modules/users/useCase/ResetPasswordUseCase/ResetPasswordUseCase";
 import { SendForgotPasswordEmailUseCase } from "@modules/users/useCase/SendForgotPasswordEmailUseCase/SendForgotPasswordEmailUseCase";
 import { EtherealMailProvider } from "@provider/EmailProvider/implementations/EtheralMailProvider";
+import { HandlebarsMailTemplateProvider } from "@provider/MailTemplateProvider/implementations/HandlebarsMailTemplate";
+import IMailTemplateProvaider from "@provider/MailTemplateProvider/models/IMailTemplateProvaider";
 
 const container = new Container();
 
@@ -63,12 +65,15 @@ container
 /* Email Provider */
 const etherealMailProvider = new EtherealMailProvider()
 
-container.bind<IMailProvider>("HashProvider").toConstantValue(etherealMailProvider);
+container.bind<IMailProvider>("EtherealMailProvider").toConstantValue(etherealMailProvider);
 container.bind<ResetPasswordEmailUseCase>(ResetPasswordEmailUseCase).to(ResetPasswordEmailUseCase);
 container.bind<SendForgotPasswordEmailUseCase>(SendForgotPasswordEmailUseCase).to(SendForgotPasswordEmailUseCase);
 
 /* Tokens */
 
 container.bind<IUserTokenRepository>("UserTokenRepository").to(UserTokenRepository);
+
+/* Mail Templates */
+container.bind<IMailTemplateProvaider>("HandlebarsMailTemplateProvider").to(HandlebarsMailTemplateProvider);
 
 export { container };

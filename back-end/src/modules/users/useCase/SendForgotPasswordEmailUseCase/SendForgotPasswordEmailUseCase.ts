@@ -25,9 +25,9 @@ class SendForgotPasswordEmailUseCase {
       throw new AppError('E-mail does not exists')
     }
 
-    await this.userTokenRepository.generate(checkEmailExists.id)
+    const { token } = await this.userTokenRepository.generate(checkEmailExists.id)
 
-    await this.mailProvider.sendMail(email, "Pedido de Recuperação de senha Recebido")
+    await this.mailProvider.sendMail(email, `Pedido de Recuperação de senha Recebido: ${token}`)
   }
 }
 
