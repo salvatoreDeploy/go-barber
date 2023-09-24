@@ -5,6 +5,7 @@ import { ISendForgotPasswordDTO } from "@modules/users/reporitories/dtos/ISendFo
 import { IMailProvider } from "@provider/EmailProvider/models/IMailProvider";
 import { AppError } from "@shared/error/AppError";
 import { IUserTokenRepository } from "@modules/users/reporitories/IUserTokenRepository";
+import path from 'node:path'
 
 @injectable()
 class SendForgotPasswordEmailUseCase {
@@ -27,7 +28,22 @@ class SendForgotPasswordEmailUseCase {
 
     const { token } = await this.userTokenRepository.generate(checkEmailExists.id)
 
-    await this.mailProvider.sendMail(email, `Pedido de Recuperação de senha Recebido: ${token}`)
+    const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'templates', 'forgot_password.hbs')
+
+    await this.mailProvider.sendMail({
+      to: {
+        name: checkEmailExists.name,
+        email: checkEmailExists.email
+      },
+      subject: '[GoBaber] Recuperação de Senha',
+      templateData: {
+        file: forgotPasswordTemplate,
+        variables: {
+          name: checkEmailExists.name,
+          link: `http:\\localhost:3000/reset?token=${token}`
+        }
+      }
+    })
   }
 }
 

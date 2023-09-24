@@ -1,5 +1,6 @@
 import { appointmentsRouter } from "@modules/appointments/infra/http/appointments.routes";
 import { passwordRoutes } from "@modules/users/infra/http/password.routes";
+import { profileRoutes } from "@modules/users/infra/http/profile.routes";
 import { sessionsRoutes } from "@modules/users/infra/http/sessions.routes";
 import { usersRoutes } from "@modules/users/infra/http/users.routes";
 import { Router } from "express";
@@ -18,5 +19,8 @@ routes.use("/password", passwordRoutes);
 
 /* Autheticated */
 routes.use("/", sessionsRoutes);
+
+/* Profiles */
+routes.use('/profile', profileRoutes)
 
 export { routes };

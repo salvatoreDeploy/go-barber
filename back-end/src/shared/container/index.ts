@@ -63,7 +63,8 @@ container
   .to(UpdateAvatarUserUseCase);
 
 /* Email Provider */
-const etherealMailProvider = new EtherealMailProvider()
+const handlebarsMailTemplateProvider = new HandlebarsMailTemplateProvider
+const etherealMailProvider = new EtherealMailProvider(handlebarsMailTemplateProvider)
 
 container.bind<IMailProvider>("EtherealMailProvider").toConstantValue(etherealMailProvider);
 container.bind<ResetPasswordEmailUseCase>(ResetPasswordEmailUseCase).to(ResetPasswordEmailUseCase);

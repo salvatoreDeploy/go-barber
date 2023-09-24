@@ -1,13 +1,16 @@
+import IMailTemplateProvaider from "@provider/MailTemplateProvider/models/IMailTemplateProvaider"
+import ISendMailDTO from "../dtos/ISendMailDTO"
 import { IMailProvider } from "../models/IMailProvider"
 import nodemailer, { Transporter } from 'nodemailer'
+import { inject, injectable } from "inversify"
 
 
-
+@injectable()
 class EtherealMailProvider implements IMailProvider {
 
   private client: Transporter | null = null
 
-  constructor() {
+  constructor(@inject('HandlebarsMailTemplateProvider') private mailTemplateProvider: IMailTemplateProvaider) {
 
     nodemailer.createTestAccount().then(account => {
       const transporter = nodemailer.createTransport({
@@ -25,17 +28,22 @@ class EtherealMailProvider implements IMailProvider {
 
   }
 
-  async sendMail(to: string, body: string): Promise<void> {
+  async sendMail({ to, from, subject, templateData }: ISendMailDTO): Promise<void> {
 
     if (!this.client) {
       return
     }
 
     const message = await this.client.sendMail({
-      from: 'Equipe ProjetosDeploy <liderhenrique@gmail.com>',
-      to,
-      subject: 'Recuperação de senha ✔',
-      text: body,
+      from: {
+        name: from?.name || "Equipe Projetos Deploy",
+        address: from?.email || "projetosDeploy@gmail.com"
+      },
+      to: {
+        name: to.name, address: to.email
+      },
+      subject,
+      html: await this.mailTemplateProvider.parse(templateData)
     })
 
     console.log('Message sent: %s', message.messageId)
