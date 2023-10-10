@@ -21,6 +21,7 @@ import { SendForgotPasswordEmailUseCase } from "@modules/users/useCase/SendForgo
 import { EtherealMailProvider } from "@provider/EmailProvider/implementations/EtheralMailProvider";
 import { HandlebarsMailTemplateProvider } from "@provider/MailTemplateProvider/implementations/HandlebarsMailTemplate";
 import IMailTemplateProvaider from "@provider/MailTemplateProvider/models/IMailTemplateProvaider";
+import { ListProvaidersUseCase } from "@modules/appointments/useCase/ListProvaidersUseCase/ListProvaidersUseCase";
 
 const container = new Container();
 
@@ -43,6 +44,9 @@ container
 container
   .bind<ListAppointmentsUseCase>(ListAppointmentsUseCase)
   .to(ListAppointmentsUseCase);
+container
+  .bind<ListProvaidersUseCase>(ListProvaidersUseCase)
+  .to(ListProvaidersUseCase);
 
 /* Users */
 

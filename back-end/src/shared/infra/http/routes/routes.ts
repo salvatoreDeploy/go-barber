@@ -11,6 +11,9 @@ const routes = Router();
 /* Appointments */
 routes.use("/appointments", appointmentsRouter);
 
+/* Provaiders */
+routes.use('/provaiders', profileRoutes)
+
 /* Users */
 routes.use("/users", usersRoutes);
 

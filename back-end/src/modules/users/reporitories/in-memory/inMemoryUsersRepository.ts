@@ -5,6 +5,7 @@ import { randomUUID } from 'crypto'
 
 
 export class InMemoryUsersRepository implements IUserRepository {
+
   async save(user: Users): Promise<Users> {
     const findIndex = this.users.findIndex(findUser => findUser.id === user.id);
 
@@ -58,5 +59,15 @@ export class InMemoryUsersRepository implements IUserRepository {
 
   async list(): Promise<Users[]> {
     return this.users
+  }
+
+  async findAllProvaiders({ execept_user_id }: IFindAllProvaiderDTO): Promise<Users[]> {
+    let users = this.users
+
+    if (execept_user_id) {
+      users = this.users.filter(user => user.id !== execept_user_id)
+    }
+
+    return users
   }
 }

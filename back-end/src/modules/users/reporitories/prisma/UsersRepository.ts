@@ -65,6 +65,24 @@ class UsersRepository implements IUserRepository {
 
     return users;
   }
+
+  public async findAllProvaiders({ execept_user_id }: IFindAllProvaiderDTO): Promise<Users[]> {
+    let users: Users[]
+
+    if (execept_user_id) {
+      users = await this.ormPrisma.users.findMany({
+        where: {
+          id: {
+            not: execept_user_id
+          }
+        }
+      })
+    } else {
+      users = await this.ormPrisma.users.findMany()
+    }
+
+    return users
+  }
 }
 
 export { UsersRepository };

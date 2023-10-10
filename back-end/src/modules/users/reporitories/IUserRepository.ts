@@ -8,4 +8,5 @@ export interface IUserRepository {
   update(data: IUpdateAvatarDTO): Promise<void>
   list(): Promise<Users[]>
   save(user: Users): Promise<Users>
+  findAllProvaiders(data: IFindAllProvaiderDTO): Promise<Users[]>
 }
