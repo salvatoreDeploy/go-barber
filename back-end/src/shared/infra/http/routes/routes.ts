@@ -1,4 +1,5 @@
 import { appointmentsRouter } from "@modules/appointments/infra/http/appointments.routes";
+import { provaidersRouter } from "@modules/appointments/infra/http/provaiders.routes";
 import { passwordRoutes } from "@modules/users/infra/http/password.routes";
 import { profileRoutes } from "@modules/users/infra/http/profile.routes";
 import { sessionsRoutes } from "@modules/users/infra/http/sessions.routes";
@@ -12,7 +13,7 @@ const routes = Router();
 routes.use("/appointments", appointmentsRouter);
 
 /* Provaiders */
-routes.use('/provaiders', profileRoutes)
+routes.use('/provaiders', provaidersRouter)
 
 /* Users */
 routes.use("/users", usersRoutes);
