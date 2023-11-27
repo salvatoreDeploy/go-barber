@@ -53,6 +53,8 @@ class ListProvaiderMonthAvailabilitysUseCase {
       };
     });
 
+    console.log(vailability);
+
     return vailability;
   }
 }

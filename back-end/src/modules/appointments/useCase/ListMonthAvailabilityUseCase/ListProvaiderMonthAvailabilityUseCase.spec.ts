@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, test, vi } from "vitest";
 import { ListProvaiderMonthAvailabilitysUseCase } from "./ListProvaiderMonthAvailabilityUseCase";
 import { InMemoryAppointmentRepository } from "@modules/appointments/repositories/in-memory/inMemoryAppointmentsRepository";
-import { getHours, getSeconds, setHours, setSeconds } from "date-fns";
+import { getHours } from "date-fns";
 
 let inMemoryAppointmentsRepository: InMemoryAppointmentRepository;
 let sut: ListProvaiderMonthAvailabilitysUseCase;
@@ -30,6 +30,8 @@ describe("List Provaiders Month Availability", () => {
 
       teste.push(value);
     }
+
+    console.log(teste);
 
     await inMemoryAppointmentsRepository.create({
       provider_id: "provaider",
