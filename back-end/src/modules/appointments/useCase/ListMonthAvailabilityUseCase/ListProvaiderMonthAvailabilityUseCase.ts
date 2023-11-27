@@ -1,7 +1,4 @@
 import "reflect-metadata";
-import { IUserRepository } from "@modules/users/reporitories/IUserRepository";
-import { Users } from "@prisma/client";
-import { AppError } from "@shared/error/AppError";
 import { inject, injectable } from "inversify";
 import { IAppointmentsRepository } from "@modules/appointments/repositories/IAppointmentsRepository";
 import { getDate, getDaysInMonth } from "date-fns";

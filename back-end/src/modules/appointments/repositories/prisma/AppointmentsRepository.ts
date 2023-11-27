@@ -4,6 +4,7 @@ import { IAppointmentsRepository } from "../IAppointmentsRepository";
 import { injectable } from "inversify";
 import { IFindAllInMonthFromProvaiderDTO } from "../dtos/IFindAllInMonthFromProvaiderDTO";
 import { raw } from "@prisma/client/runtime";
+import { IFindAllInDayFromProvaiderDTO } from "../dtos/IFindAllInDayFromProvaiderDTO";
 
 @injectable()
 class AppointmentsRepository implements IAppointmentsRepository {
@@ -53,6 +54,25 @@ class AppointmentsRepository implements IAppointmentsRepository {
       SELECT *
       FROM appointments
       WHERE to_char(date, 'MM-YYYY') = '${parsedMonth}-${year}'
+      AND provider_id = ${provider_id};
+    `;
+
+    return appointmentMonth;
+  }
+
+  public async findAllInDayFromProvaider({
+    provider_id,
+    day,
+    month,
+    year,
+  }: IFindAllInDayFromProvaiderDTO): Promise<Appointments[]> {
+    const parsedDay = String(day).padStart(2, "0");
+    const parsedMonth = String(month).padStart(2, "0");
+
+    const appointmentMonth: Appointments[] = await this.ormPrisma.$queryRaw`
+      SELECT *
+      FROM appointments
+      WHERE to_char(date, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'
       AND provider_id = ${provider_id};
     `;
 

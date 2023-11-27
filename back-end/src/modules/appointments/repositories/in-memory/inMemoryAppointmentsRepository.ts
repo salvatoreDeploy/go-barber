@@ -2,8 +2,9 @@ import "reflect-metadata";
 import { Appointments } from "@prisma/client";
 import { IAppointmentsRepository } from "../IAppointmentsRepository";
 import { randomUUID } from "node:crypto";
-import { getMonth, getYear, isEqual } from "date-fns";
+import { getDate, getMonth, getYear, isEqual } from "date-fns";
 import { IFindAllInMonthFromProvaiderDTO } from "../dtos/IFindAllInMonthFromProvaiderDTO";
+import { IFindAllInDayFromProvaiderDTO } from "../dtos/IFindAllInDayFromProvaiderDTO";
 
 export class InMemoryAppointmentRepository implements IAppointmentsRepository {
   public appointments: Appointments[] = [];
@@ -44,6 +45,23 @@ export class InMemoryAppointmentRepository implements IAppointmentsRepository {
     const appointmentsMonth = this.appointments.filter(
       (appointment) =>
         appointment.provider_id === provider_id &&
+        getMonth(appointment.date) + 1 === month &&
+        getYear(appointment.date) === year
+    );
+
+    return appointmentsMonth;
+  }
+
+  async findAllInDayFromProvaider({
+    provider_id,
+    day,
+    month,
+    year,
+  }: IFindAllInDayFromProvaiderDTO): Promise<Appointments[]> {
+    const appointmentsMonth = this.appointments.filter(
+      (appointment) =>
+        appointment.provider_id === provider_id &&
+        getDate(appointment.date) === day &&
         getMonth(appointment.date) + 1 === month &&
         getYear(appointment.date) === year
     );
