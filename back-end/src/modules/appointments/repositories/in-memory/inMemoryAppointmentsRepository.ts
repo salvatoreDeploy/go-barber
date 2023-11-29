@@ -24,6 +24,7 @@ export class InMemoryAppointmentRepository implements IAppointmentsRepository {
     const appointment = {
       id: randomUUID(),
       provider_id: data.provider_id,
+      user_id: data.user_id,
       date: data.date || new Date(),
       created_at: new Date(),
       updated_at: null || new Date(),

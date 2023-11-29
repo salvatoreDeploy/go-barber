@@ -25,6 +25,7 @@ describe("List Provaiders Month Availability", () => {
 
       const value = await inMemoryAppointmentsRepository.create({
         provider_id: "provaider",
+        user_id: "user-id-teste-01",
         date: new Date(2023, 10, 22, hour, 0, 0) /* 22/10/2023 8:00 */,
       });
 
@@ -35,6 +36,7 @@ describe("List Provaiders Month Availability", () => {
 
     await inMemoryAppointmentsRepository.create({
       provider_id: "provaider",
+      user_id: "user-id-teste-01",
       date: new Date(2023, 10, 23, 9, 0, 0) /* 13/12/2023 9:00 */,
     });
 

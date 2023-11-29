@@ -26,11 +26,13 @@ class AppointmentsRepository implements IAppointmentsRepository {
 
   public async create({
     provider_id,
+    user_id,
     date,
   }: ICreateAppointmentsDTO): Promise<Appointments> {
     const appointment = await this.ormPrisma.appointments.create({
       data: {
         provider_id,
+        user_id,
         date,
       },
     });

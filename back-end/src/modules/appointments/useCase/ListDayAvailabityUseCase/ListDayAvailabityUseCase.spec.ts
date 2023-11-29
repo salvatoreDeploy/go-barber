@@ -16,11 +16,13 @@ describe("List Provaiders Day Availability", () => {
   it("should be able to list providers the day availability from provaider", async () => {
     await inMemoryAppointmentsRepository.create({
       provider_id: "provaider",
+      user_id: "user-id-teste-01",
       date: new Date(2023, 10, 22, 14, 0, 0) /* 22/10/2023 14:00 */,
     });
 
     await inMemoryAppointmentsRepository.create({
       provider_id: "provaider",
+      user_id: "user-id-teste-01",
       date: new Date(2023, 10, 22, 15, 0, 0) /* 22/10/2023 15:00 */,
     });
 

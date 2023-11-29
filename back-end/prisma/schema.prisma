@@ -20,6 +20,7 @@ model Users {
   updated_at   DateTime       @default(now())
   Appointments Appointments[]
   UserToken    UserToken[]
+  appointments Appointments[] @relation("userAppointments")
 
   @@map("users")
 }
@@ -30,6 +31,9 @@ model Appointments {
 
   provider_id String
   users       Users  @relation(fields: [provider_id], references: [id])
+
+  user_id            String?
+  appointments_users Users?  @relation("userAppointments", fields: [user_id], references: [id])
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
