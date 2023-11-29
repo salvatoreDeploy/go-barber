@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { inject, injectable } from "inversify";
 import { IAppointmentsRepository } from "@modules/appointments/repositories/IAppointmentsRepository";
-import { getDate, getDaysInMonth, getHours } from "date-fns";
+import { getHours, isAfter } from "date-fns";
 
 interface IRequest {
   provider_id: string;
@@ -48,9 +48,18 @@ class ListProvaiderDayAvailabilitysUseCase {
         (appointment) => getHours(appointment.date) === hour
       );
 
+      const currentDate = new Date(Date.now());
+      const compareDate = new Date(year, month - 1, day, hour);
+
+      /* 
+          isAfter(compareDate, currentDate)
+          - Vai comprarar a data selcionada com data atual para não
+          ser possivel de realizar agendamento em uma data ou horario no passado.
+      */
+
       return {
         hour,
-        available: !hasAppointmentInHour,
+        available: !hasAppointmentInHour && isAfter(compareDate, currentDate),
       };
     });
 

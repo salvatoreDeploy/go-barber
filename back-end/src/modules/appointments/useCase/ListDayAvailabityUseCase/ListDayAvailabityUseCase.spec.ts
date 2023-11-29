@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, test, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { InMemoryAppointmentRepository } from "@modules/appointments/repositories/in-memory/inMemoryAppointmentsRepository";
 import { ListProvaiderDayAvailabilitysUseCase } from "./ListDayAvailabityUseCase";
 
@@ -16,12 +16,16 @@ describe("List Provaiders Day Availability", () => {
   it("should be able to list providers the day availability from provaider", async () => {
     await inMemoryAppointmentsRepository.create({
       provider_id: "provaider",
-      date: new Date(2023, 10, 22, 8, 0, 0) /* 22/10/2023 8:00 */,
+      date: new Date(2023, 10, 22, 14, 0, 0) /* 22/10/2023 14:00 */,
     });
 
     await inMemoryAppointmentsRepository.create({
       provider_id: "provaider",
-      date: new Date(2023, 10, 22, 10, 0, 0) /* 22/10/2023 10:00 */,
+      date: new Date(2023, 10, 22, 15, 0, 0) /* 22/10/2023 15:00 */,
+    });
+
+    vi.spyOn(Date, "now").mockImplementation(() => {
+      return new Date(2023, 10, 22, 11).getTime();
     });
 
     const availability = await sut.execute({
@@ -34,9 +38,12 @@ describe("List Provaiders Day Availability", () => {
     expect(availability).toEqual(
       expect.arrayContaining([
         { hour: 8, available: false },
-        { hour: 9, available: true },
+        { hour: 9, available: false },
         { hour: 10, available: false },
-        { hour: 11, available: true },
+        { hour: 11, available: false },
+        { hour: 13, available: true },
+        { hour: 14, available: false },
+        { hour: 15, available: false },
       ])
     );
   });
